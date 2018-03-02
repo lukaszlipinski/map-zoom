@@ -36,7 +36,7 @@ function tickScale(direction) {
 
 function getXYRelativelyToImage(x, y) {
 	var rect = getImageRect();
-
+console.log('getXYRelativelyToImage', y - rect.top, x - rect.left);
 	return {
 		x: x - rect.left,
 		y: y - rect.top
@@ -58,13 +58,14 @@ function zoomToPoint(x, y, direction) {
 
 	var imgRect = getImageRect();
 	var wrapperRect = getWrapperRect();
+	var newX = parseInt(img.style.left || 0, 10) - diffX;
+	var newY = parseInt(img.style.top || 0, 10) - diffY;
 
-console.log(wrapperRect.left , imgRect.left, wrapperRect.top, imgRect.top);
-	img.style.left = (wrapperRect.left - imgRect.left) - diffX + 'px';
-	img.style.top = (wrapperRect.top - imgRect.top) - diffY + 'px';
+	newX = Math.min(0, newX);
+	newY = Math.min(0, newY);
 
-
-	//setImageScale(newScale, newPointPositionX - relativelyToImageStart.x, newPointPositionY - relativelyToImageStart.y);
+	img.style.left = newX + 'px';
+	img.style.top = newY + 'px';
 }
 
 function getImageRect() {
